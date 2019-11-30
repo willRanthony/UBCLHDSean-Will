@@ -1,12 +1,18 @@
-package VolunteerPackage;
-import java.time.LocalDateTime;
+package UserPackage;
+import OrganizationPackage.Organization;
 
-public class Volunteer  {
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class User {
     private final String username;
+    private String name;
     private String password;
     private final LocalDateTime dateCreated;
     private LocalDateTime lastLogIn;
     private boolean active;
+    private List<String> organizations;
 
 
     /**
@@ -16,26 +22,26 @@ public class Volunteer  {
      * The account is set to active upon creation
      * The account can be activated or deactivated
      *
-     * @param username      the string representing the username of the volunteer
-     * @param password      the string representing the password of the volunteer
-     * @param dateCreated   the LocalDateTime representing the datetime of account creation
-     * @param lastLogIn     the LocalDateTime representing the datatime that the user last logged in
+     * @param username      the string representing the username of the user
+     * @param name          the preferred name of the user
+     * @param password      the string representing the password of the user
      */
 
-    public Volunteer (String                username,
-                      String                password,
-                      LocalDateTime         dateCreated,
-                      LocalDateTime         lastLogIn) {
+    public User(String                username,
+                String                name,
+                String                password) {
 
         this.username = username;
+        this.name = name;
         this.password = password;
-        this.dateCreated = dateCreated;
-        this.lastLogIn = lastLogIn;
+        this.dateCreated = LocalDateTime.now();
+        this.lastLogIn = LocalDateTime.now();
         this.active = true;
+        this.organizations = new ArrayList<String>();
     }
 
     /**
-     * Returns the string representing the username of the Volunteer
+     * Returns the string representing the username of the User
      * @return this.username
      **/
     public String getUsername() {
@@ -43,7 +49,15 @@ public class Volunteer  {
     }
 
     /**
-     * Returns the string representing the password of the Volunteer
+     * Returns the string representing the name of the User
+     * @return this.name
+     **/
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Returns the string representing the password of the User
      * @return this.password
      **/
     public String getPassword() {
@@ -72,6 +86,14 @@ public class Volunteer  {
      **/
     public boolean isActive() {
         return this.active;
+    }
+
+    /**
+     * @param name String representing the new preferred name of the User
+     * @return void
+     **/
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -106,7 +128,31 @@ public class Volunteer  {
         this.active = false;
     }
 
-    public boolean equals(Volunteer other) {
+    /**
+     * Checks if the organization is already a part of the User's list of organizations
+     * @return void
+     **/
+    public boolean checkOrganzation(Organization org) {
+        return this.organizations.contains(org.getName());
+    }
+
+    /**
+     * Adds the organization to the User's list of organizations
+     * @return void
+     **/
+    public void joinOrganzation(Organization org) {
+        this.organizations.add(org.getName());
+    }
+
+    /**
+     * Removes the organization from the User's list of organizations
+     * @return void
+     **/
+    public void leaveOrganzation(Organization org) {
+        this.organizations.remove(org.getName());
+    }
+
+    public boolean equals(User other) {
         return ((this.username.equals(other.getUsername())) &&
                 (this.password.equals(other.getPassword())) &&
                 (this.dateCreated.equals(other.getDateCreated())) &&

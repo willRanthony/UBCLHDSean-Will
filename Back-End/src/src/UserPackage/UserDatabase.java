@@ -1,9 +1,9 @@
-package VolunteerPackage;
+package UserPackage;
 import java.util.HashMap;
 
-public class VolunteerDatabase {
+public class UserDatabase {
 
-    private HashMap<String, Volunteer> database;
+    private HashMap<String, User> database;
 
     /**
      * REP INVARIANT
@@ -11,7 +11,7 @@ public class VolunteerDatabase {
      * Volunteers can exists only once in the database
      * Volunteers are assigned key values based on their username, as every username must be unique
      **/
-    public VolunteerDatabase () {}
+    public UserDatabase() {}
 
     /**
      * Get the number of Volunteers in the database
@@ -26,11 +26,11 @@ public class VolunteerDatabase {
      * @param username  the username of the Volunteer being looked for
      * @return the Volunteer whose username is
      */
-    public Volunteer getUser(String username) throws NoSuchVolunteerException {
+    public User getUser(String username) throws NoSuchUserException {
         if (!this.existingUser(username)) {
             return this.database.get(username);
         }
-        throw new NoSuchVolunteerException("User does not EXIST");
+        throw new NoSuchUserException("User does not EXIST");
     }
 
     /**
@@ -50,7 +50,7 @@ public class VolunteerDatabase {
      * @param vol  the Volunteer to be added
      * @return true if the user was added to the database, false if the user already exists
      */
-    public boolean addVolunteer(Volunteer vol) {
+    public boolean addVolunteer(User vol) {
         if (!this.existingUser(vol.getUsername())) {
             this.database.put(vol.getUsername(), vol);
             return true;
@@ -63,7 +63,7 @@ public class VolunteerDatabase {
      * @param vol  the Volunteer to be removed
      * @return true if the user was added to the database, false if the user did not exist
      */
-    public boolean removeVolunteer (Volunteer vol) {
+    public boolean removeVolunteer (User vol) {
         if (this.existingUser(vol.getUsername())) {
             this.database.remove(vol);
             return true;

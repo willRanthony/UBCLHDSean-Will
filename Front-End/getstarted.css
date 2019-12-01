@@ -1,0 +1,21 @@
+.getstarted-opening {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  align-self: center;
+}
+
+.getstarted-profiles {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 1rem;
+  allign-self: center;
+  text-decoration: none;
+}
+
+.profile-button {
+  text-decoration: none;
+}

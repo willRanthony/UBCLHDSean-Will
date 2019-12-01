@@ -13,12 +13,12 @@ public class User {
     private BufferedImage image;
     private final String username;
     private String name;
+    private String email;
     private String password;
     private final LocalDateTime dateCreated;
     private LocalDateTime lastLogIn;
     private boolean active;
     private List<Organization> organizations;
-
 
     /**
      * REP INVARIANT
@@ -31,12 +31,14 @@ public class User {
      * @param name          the preferred name of the user
      * @param password      the string representing the password of the user
      * @param image         the profile photo of the user
+     * @param email         the email address of the user
      */
 
     public User(String username,
                 String name,
                 String password,
-                BufferedImage image) {
+                BufferedImage image,
+                String email) {
 
         this.username = username;
         this.name = name;
@@ -46,17 +48,20 @@ public class User {
         this.active = true;
         this.organizations = new ArrayList<Organization>();
         this.image = image;
+        this.email = email;
     }
 
     /**
      * @param username      the string representing the username of the user
      * @param name          the preferred name of the user
      * @param password      the string representing the password of the user
+     * @param email         the email address of the user
      **/
 
     public User(String username,
                 String name,
-                String password) {
+                String password,
+                String email) {
 
         this.username = username;
         this.name = name;
@@ -66,6 +71,7 @@ public class User {
         this.active = true;
         this.organizations = new ArrayList<Organization>();
         this.image = null;
+        this.email = email;
     }
 
     /**
@@ -101,11 +107,28 @@ public class User {
     }
 
     /**
+     * Returns the string representing the email of the User
+     * @return this.name
+     **/
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
      * Returns the string representing the password of the User
      * @return this.password
      **/
     public String getPassword() {
         return this.password;
+    }
+
+    /**
+     * Returns whether the password given is the password needed
+     * @param password the password entered by the user
+     * @return true if the password is correct, false if it is not
+     **/
+    public boolean checkPassword(String password) {
+        return (this.password.equals(password));
     }
 
     /**
@@ -138,6 +161,14 @@ public class User {
      **/
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @param email String representing the new email of the User
+     * @return void
+     **/
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

@@ -1,6 +1,5 @@
 package UserPackage;
 import java.util.HashMap;
-
 public class UserDatabase {
 
     private HashMap<String, User> database;

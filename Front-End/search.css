@@ -1,0 +1,14 @@
+.searchbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  align-self: center;
+}
+
+.searchbar-input {
+  width: 80%;
+  border: 3px solid #FFF383;
+  border-radius: 5px;
+  padding: 5px;
+}

@@ -1,17 +1,22 @@
 package OrganizationPackage;
+import FeedPackage.Post;
+
+import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Organization {
-
+    private BufferedImage image;
     private String name;
+    private final String username;
     private String password;
     private final LocalDateTime dateCreated;
     private LocalDateTime lastLogIn;
     private boolean active;
     private List<String> tags;
+    private List<Post> posts;
 
     //Add in a location tag to help determine the hashcode???
 
@@ -30,17 +35,20 @@ public class Organization {
      */
 
     public Organization(String name,
+                        String username,
                         String password,
                         LocalDateTime dateCreated,
                         LocalDateTime lastLogIn,
                         List<String> tags) {
 
         this.name = name;
+        this.username = username;
         this.password = password;
         this.dateCreated = dateCreated;
         this.lastLogIn = lastLogIn;
         this.active = true;
         this.tags = new ArrayList<String>(tags);
+        this.posts = new ArrayList<Post>();
     }
 
     /**
@@ -50,27 +58,65 @@ public class Organization {
      * @param lastLogIn   the LocalDateTime representing the datetime that the user last logged in
      */
     public Organization(String name,
+                        String username,
                         String password,
                         LocalDateTime dateCreated,
                         LocalDateTime lastLogIn) {
 
         this.name = name;
+        this.username = username;
         this.password = password;
         this.dateCreated = dateCreated;
         this.lastLogIn = lastLogIn;
         this.active = true;
         this.tags = new ArrayList<String>();
+        this.posts = new ArrayList<Post>();
+    }
+
+    /**                                 IMAGE                                 **/
+
+    /**
+     * Returns the User's profile photo
+     * @return this.image
+     **/
+    public BufferedImage getImage() {
+        return this.image;
+    }
+
+    /**
+     * Sets the User's profile photo
+     * @param image the new profile photo
+     **/
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    /**                                 USERNAME                                 **/
+
+    /**
+     * Returns the string representing the username of the Volunteer
+     * @return this.username
+     **/
+    public String getUsername() {
+        return this.username;
     }
 
     /**                                 NAME                                 **/
 
     /**
-     * Returns the string representing the username of the Volunteer
-     *
+     * Returns the string representing the name of the User
      * @return this.name
      **/
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Returns the string representing the name of the User
+     * @return this.name
+     **/
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**                                 PASSWORD                                 **/
@@ -96,7 +142,6 @@ public class Organization {
 
     /**
      * Returns the LocalDateTime representing the time that the user made their account
-     *
      * @return this.dateCreated
      **/
     public LocalDateTime getDateCreated() {
@@ -107,7 +152,6 @@ public class Organization {
 
     /**
      * Returns the LocalDateTime representing the time that the user last logged in
-     *
      * @return this.lastLogIn
      **/
     public LocalDateTime getLastLogIn() {
@@ -116,7 +160,6 @@ public class Organization {
 
     /**
      * Updates the time that the user last logged in, to be the current time. Will be called on log-in
-     *
      * @return void
      **/
     public void updateLastLogin() {
@@ -127,7 +170,6 @@ public class Organization {
 
     /**
      * Updates the time that the user last logged in, to be the current time. Will be called on log-in
-     *
      * @return void
      **/
     public List<String> getTags() {
@@ -140,7 +182,6 @@ public class Organization {
 
     /**
      * Returns the whether the user is active or not
-     *
      * @return this.username
      **/
     public boolean isActive() {
@@ -149,7 +190,6 @@ public class Organization {
 
     /**
      * Activates the user
-     *
      * @return void
      **/
     public void activate() {
@@ -158,21 +198,46 @@ public class Organization {
 
     /**
      * Deactivates the user
-     *
      * @return void
      **/
     public void deactivate() {
         this.active = false;
     }
 
+    /**                                 POSTS                                 **/
+
+    /**
+     * Returns a copy of the posts from this organization
+     * @return
+     **/
+    public List<Post> getPosts() {
+        List<Post> list = new ArrayList<Post>();
+        Collections.copy(list, this.posts);
+        return list;
+    }
+
+    /**
+     * Returns a copy of the posts from this organization
+     * @param post the Post to be removed from this Organization's page
+     **/
+    public void deletePost(Post post) {
+        posts.remove(post);
+    }
+
     /**                                 GENERAL                                 **/
 
+    /**
+     * Determines if the organization is the same as the other
+     * @param other     the other organization to compare against
+     **/
     public boolean equals(Organization other) {
-        return ((this.name.equals(other.getName())) &&
+        return ((this.image.equals(other.getImage())) &&
+                (this.name.equals(other.getName())) &&
                 (this.password.equals(other.getPassword())) &&
                 (this.dateCreated.equals(other.getDateCreated())) &&
                 (this.lastLogIn.equals(other.getName())) &&
-                (this.active == other.active));
+                (this.active == other.active) &&
+                (this.tags.equals(other.tags)));
     }
 
 }

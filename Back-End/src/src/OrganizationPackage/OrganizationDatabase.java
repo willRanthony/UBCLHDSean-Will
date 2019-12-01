@@ -1,10 +1,12 @@
 package OrganizationPackage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class OrganizationDatabase {
 
-    private HashMap<String, Organization> database;
+    private List<Organization> database;
 
     /**
      * REP INVARIANT
@@ -23,27 +25,26 @@ public class OrganizationDatabase {
     }
 
     /**
-     * Get a Organization from the database
-     * @param name  the username of the Organization being looked for
-     * @return the Organization whose username is
+     * Determines if the Organization is present in the database by name
+     * @param org  the name of the Organization being looked for
+     * @return true if the Organization exists, false if it does not
      */
-    public Organization getOrganization(String name) throws NoSuchOrganizationException {
-        if (!this.existingOrganization(name)) {
-            return this.database.get(name);
-        }
-        throw new NoSuchOrganizationException("User does not EXIST");
+    public boolean existingOrganization(Organization org) {
+        return this.database.contains(org);
     }
 
     /**
-     * Determines if the Organization is present in the database by name
-     * @param name  the name of the Organization being looked for
-     * @return true if the Organization exists, false if it does not
+     * Get a Organization from the database
+     * @param org the username of the Organization being looked for
+     * @return the Organization whose username is
      */
-    public boolean existingOrganization(String name) {
-        if (this.database.get(name) == null) {
-            return false;
+    public Organization getOrganization(Organization org) throws NoSuchOrganizationException {
+        for (Organization o :database) {
+            if (o.equals(org)) {
+                return o;
+            }
         }
-        return true;
+        throw new NoSuchOrganizationException("Organization does not EXIST");
     }
 
     /**
@@ -52,8 +53,8 @@ public class OrganizationDatabase {
      * @return true if the Organization was added to the database, false if the Organization already exists
      */
     public boolean addOrganization(Organization org) {
-        if (!this.existingOrganization(org.getName())) {
-            this.database.put(org.getName(), org);
+        if (!this.existingOrganization(org)) {
+            this.database.add(org);
             return true;
         }
         return false;
@@ -65,7 +66,7 @@ public class OrganizationDatabase {
      * @return true if the Organization was added to the database, false if the Organization did not exist
      */
     public boolean removeOrganization (Organization org) {
-        if (this.existingOrganization(org.getName())) {
+        if (this.existingOrganization(org)) {
             this.database.remove(org);
             return true;
         }
@@ -74,13 +75,20 @@ public class OrganizationDatabase {
 
     /**
      * Checks to see if the username being passed already exists in the database
-     * @param requestedName is the username to be checked for validity
-     * @return true if the username does not already exist in the database, false if it already exists
-     *
-    public boolean usernameCheck(String requestedUame) {
-        return (!this.database.keySet().contains(requestedUsername));
+     * @param tags is the list of tags that the user wants to return results for
+     * @return a list of Organizations that have tags matching the tags passed
+     **/
+    public List<Organization> searchTags(List<String> tags) {
+        List<Organization> results = new ArrayList<Organization>();
+        for (Organization o : this.database) {
+            for (String t : tags) {
+                if (o.getTags().contains(t)) {
+                    results.add(o);
+                }
+            }
+        }
+        return results;
     }
-    **/
 
 
 

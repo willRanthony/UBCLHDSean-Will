@@ -1,18 +1,23 @@
 package UserPackage;
 import OrganizationPackage.Organization;
+import javafx.geometry.HPos;
 
+import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class User {
+    private BufferedImage image;
     private final String username;
     private String name;
     private String password;
     private final LocalDateTime dateCreated;
     private LocalDateTime lastLogIn;
     private boolean active;
-    private List<String> organizations;
+    private List<Organization> organizations;
 
 
     /**
@@ -25,11 +30,13 @@ public class User {
      * @param username      the string representing the username of the user
      * @param name          the preferred name of the user
      * @param password      the string representing the password of the user
+     * @param image         the profile photo of the user
      */
 
-    public User(String                username,
-                String                name,
-                String                password) {
+    public User(String username,
+                String name,
+                String password,
+                BufferedImage image) {
 
         this.username = username;
         this.name = name;
@@ -37,7 +44,44 @@ public class User {
         this.dateCreated = LocalDateTime.now();
         this.lastLogIn = LocalDateTime.now();
         this.active = true;
-        this.organizations = new ArrayList<String>();
+        this.organizations = new ArrayList<Organization>();
+        this.image = image;
+    }
+
+    /**
+     * @param username      the string representing the username of the user
+     * @param name          the preferred name of the user
+     * @param password      the string representing the password of the user
+     **/
+
+    public User(String username,
+                String name,
+                String password) {
+
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.dateCreated = LocalDateTime.now();
+        this.lastLogIn = LocalDateTime.now();
+        this.active = true;
+        this.organizations = new ArrayList<Organization>();
+        this.image = null;
+    }
+
+    /**
+     * Returns the User's profile photo
+     * @return this.image
+     **/
+    public BufferedImage getImage() {
+        return this.image;
+    }
+
+    /**
+     * Sets the User's profile photo
+     * @param image the new profile photo
+     **/
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     /**
@@ -133,7 +177,7 @@ public class User {
      * @return void
      **/
     public boolean checkOrganzation(Organization org) {
-        return this.organizations.contains(org.getName());
+        return this.organizations.contains(org);
     }
 
     /**
@@ -141,7 +185,7 @@ public class User {
      * @return void
      **/
     public void joinOrganzation(Organization org) {
-        this.organizations.add(org.getName());
+        this.organizations.add(org);
     }
 
     /**
@@ -149,7 +193,17 @@ public class User {
      * @return void
      **/
     public void leaveOrganzation(Organization org) {
-        this.organizations.remove(org.getName());
+        this.organizations.remove(org);
+    }
+
+    /**
+     * Removes the organization from the User's list of organizations
+     * @return a copy of the arrarylist of organizations that the user 'follows'
+     **/
+    public List<Organization> getOrganizations() {
+        List<Organization> list = new ArrayList<Organization>();
+        Collections.copy(list, this.organizations);
+        return list;
     }
 
     public boolean equals(User other) {
